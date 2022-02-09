@@ -484,7 +484,7 @@ app.post('/cliente/:id/compra', async(req, res)=>{
             message: "Cliente não existe"
         });
     };
-    await compra.create(ped)
+    await compra.create(com)
         .then(comcli=>{
         return res.json({
             error: false,
@@ -503,12 +503,13 @@ app.post('/cliente/:id/compra', async(req, res)=>{
 
 // Lista compra
 app.get('/listacompra', async(req, res)=>{
-    await compra.findAll({
-        order: [['id', 'DESC']] //ordem decrescente//
-    }).then(function(compras){
+    await compra.findAll()
+    .then(function(compras){
         res.json({compras})
     });
 });
+
+
 
 
 // Atualizar compra
@@ -682,7 +683,7 @@ app.put('/compras/:id/editaritem', async(req, res)=>{
             message: "Produto não encontrado."
         });
     };
-    await itemcompra.update(item, {
+    await itemcompra.update(comp, {
         where: Sequelize.and({ProdutoId: req.body.ProdutoId},
             {CompraId: req.params.id})
     }).then (function(itens){
